@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:ligerito/core/router/route_guards.dart';
 import 'package:ligerito/features/auth/presentation/providers/sesion_controller.dart';
 import 'package:ligerito/features/auth/presentation/screens/login_screen.dart';
+import 'package:ligerito/features/auth/presentation/screens/recuperar_screen.dart';
+import 'package:ligerito/features/auth/presentation/screens/registro_screen.dart';
+import 'package:ligerito/features/auth/presentation/screens/splash_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -38,8 +41,7 @@ GoRouter appRouter(Ref ref) {
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) =>
-            const ModuloPlaceholderScreen(nombre: 'splash'),
+        builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
         path: '/login',
@@ -47,13 +49,11 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         path: '/registro',
-        builder: (context, state) =>
-            const ModuloPlaceholderScreen(nombre: 'registro'),
+        builder: (context, state) => const RegistroScreen(),
       ),
       GoRoute(
         path: '/recuperar',
-        builder: (context, state) =>
-            const ModuloPlaceholderScreen(nombre: 'recuperar'),
+        builder: (context, state) => const RecuperarScreen(),
       ),
       // Shell cliente: Explorar / Pedidos / Perfil
       StatefulShellRoute.indexedStack(
