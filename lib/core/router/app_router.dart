@@ -9,6 +9,7 @@ import 'package:ligerito/features/auth/presentation/screens/recuperar_screen.dar
 import 'package:ligerito/features/auth/presentation/screens/registro_screen.dart';
 import 'package:ligerito/features/auth/presentation/screens/splash_screen.dart';
 import 'package:ligerito/features/carrito/presentation/screens/carrito_screen.dart';
+import 'package:ligerito/features/carrito/presentation/screens/checkout_screen.dart';
 import 'package:ligerito/features/catalogo/presentation/screens/home_screen.dart';
 import 'package:ligerito/features/catalogo/presentation/screens/negocio_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -108,8 +109,7 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         path: '/checkout',
-        builder: (context, state) =>
-            const ModuloPlaceholderScreen(nombre: 'checkout'),
+        builder: (context, state) => const CheckoutScreen(),
       ),
       GoRoute(
         path: '/pedido/:id',
