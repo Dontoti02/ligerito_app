@@ -197,9 +197,9 @@ class ClienteShell extends StatelessWidget {
           initialLocation: index == shell.currentIndex,
         ),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.explore), label: 'Explorar'),
-          NavigationDestination(icon: Icon(Icons.receipt_long), label: 'Pedidos'),
-          NavigationDestination(icon: Icon(Icons.person), label: 'Perfil'),
+          NavigationDestination(icon: Icon(Icons.explore_rounded), label: 'Explorar'),
+          NavigationDestination(icon: Icon(Icons.receipt_long_rounded), label: 'Pedidos'),
+          NavigationDestination(icon: Icon(Icons.person_rounded), label: 'Perfil'),
         ],
       ),
     );
