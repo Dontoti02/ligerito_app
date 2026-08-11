@@ -12,6 +12,7 @@ import 'package:ligerito/features/carrito/presentation/screens/carrito_screen.da
 import 'package:ligerito/features/carrito/presentation/screens/checkout_screen.dart';
 import 'package:ligerito/features/catalogo/presentation/screens/home_screen.dart';
 import 'package:ligerito/features/catalogo/presentation/screens/negocio_screen.dart';
+import 'package:ligerito/features/pedidos/presentation/screens/historial_screen.dart';
 import 'package:ligerito/features/pedidos/presentation/screens/pedido_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -76,8 +77,7 @@ GoRouter appRouter(Ref ref) {
             routes: [
               GoRoute(
                 path: '/historial',
-                builder: (context, state) =>
-                    const ModuloPlaceholderScreen(nombre: 'historial'),
+                builder: (context, state) => const HistorialScreen(),
               ),
             ],
           ),
