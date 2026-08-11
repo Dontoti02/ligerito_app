@@ -12,6 +12,7 @@ import 'package:ligerito/features/carrito/presentation/screens/carrito_screen.da
 import 'package:ligerito/features/carrito/presentation/screens/checkout_screen.dart';
 import 'package:ligerito/features/catalogo/presentation/screens/home_screen.dart';
 import 'package:ligerito/features/catalogo/presentation/screens/negocio_screen.dart';
+import 'package:ligerito/features/pedidos/presentation/screens/pedido_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -114,7 +115,7 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: '/pedido/:id',
         builder: (context, state) =>
-            ModuloPlaceholderScreen(nombre: 'pedido ${state.pathParameters['id']}'),
+            PedidoScreen(pedidoId: state.pathParameters['id']!),
       ),
       // Shell negocio: Pedidos / Menú / Dashboard
       StatefulShellRoute.indexedStack(
