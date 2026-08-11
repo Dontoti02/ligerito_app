@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ligerito/core/router/route_guards.dart';
 import 'package:ligerito/features/auth/presentation/providers/sesion_controller.dart';
 import 'package:ligerito/features/auth/presentation/screens/login_screen.dart';
+import 'package:ligerito/features/auth/presentation/screens/perfil_screen.dart';
 import 'package:ligerito/features/auth/presentation/screens/recuperar_screen.dart';
 import 'package:ligerito/features/auth/presentation/screens/registro_screen.dart';
 import 'package:ligerito/features/auth/presentation/screens/splash_screen.dart';
@@ -86,8 +87,7 @@ GoRouter appRouter(Ref ref) {
             routes: [
               GoRoute(
                 path: '/perfil',
-                builder: (context, state) =>
-                    const ModuloPlaceholderScreen(nombre: 'perfil'),
+                builder: (context, state) => const PerfilScreen(),
                 routes: [
                   GoRoute(
                     path: 'direcciones',
