@@ -4,11 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ligerito/core/constants/ligerito_colors.dart';
 import 'package:ligerito/core/utils/validators.dart';
-import 'package:ligerito/core/widgets/ligerito_button.dart';
-import 'package:ligerito/core/widgets/ligerito_text_field.dart';
 import 'package:ligerito/features/auth/domain/entities/usuario.dart';
 import 'package:ligerito/features/auth/presentation/providers/sesion_controller.dart';
-import 'package:ligerito/features/auth/presentation/widgets/auth_header.dart';
 import 'package:ligerito/l10n/app_localizations.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -44,10 +41,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ? '/panel/pedidos'
           : '/home';
       context.go(ruta);
-    } else {
+    } else if (sesion is SesionNoAutenticada) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.loginErrorCredenciales),
+          content: Text(sesion.error ?? AppLocalizations.of(context)!.loginErrorCredenciales),
           backgroundColor: LigeritoColors.error,
         ),
       );
@@ -59,83 +56,118 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final l10n = AppLocalizations.of(context)!;
     final sesion = ref.watch(sesionControllerProvider);
     final isLoading = sesion.valueOrNull is SesionCargando;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                AuthHeader(
-                  title: l10n.loginTitulo,
-                  subtitle: l10n.loginSubtitulo,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            children: [
+              const SizedBox(height: 24),
+              Container(
+                height: 160,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: scheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(24),
                 ),
-                LigeritoTextField(
-                  label: l10n.loginTelefono,
-                  hint: '999123456',
-                  controller: _telefonoCtrl,
-                  validator: LigeritoValidators.telefono,
-                  keyboardType: TextInputType.number,
+                child: Icon(
+                  Icons.lock_person_rounded,
+                  size: 72,
+                  color: scheme.onPrimaryContainer,
                 ),
-                const SizedBox(height: 16),
-                LigeritoTextField(
-                  label: l10n.loginPassword,
-                  controller: _passwordCtrl,
-                  validator: LigeritoValidators.password,
-                  obscureText: _obscurePassword,
+              ),
+              const SizedBox(height: 28),
+              Text(
+                l10n.loginTitulo,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
+              ),
+              const SizedBox(height: 4),
+              Text(
+                l10n.loginSubtitulo,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 24),
+              TextFormField(
+                controller: _telefonoCtrl,
+                validator: LigeritoValidators.telefono,
+                keyboardType: TextInputType.phone,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  labelText: l10n.loginTelefono,
+                  prefixIcon: const Icon(Icons.phone_outlined),
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _passwordCtrl,
+                validator: LigeritoValidators.password,
+                obscureText: _obscurePassword,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  labelText: l10n.loginPassword,
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: LigeritoColors.textSecondary,
                     ),
-                    onPressed: () =>
-                        setState(() => _obscurePassword = !_obscurePassword),
+                    onPressed: () => setState(
+                      () => _obscurePassword = !_obscurePassword,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8),
-                LigeritoButton(
-                  label: l10n.loginBoton,
-                  onPressed: _submit,
-                  loading: isLoading,
-                ),
-                const SizedBox(height: 24),
-                TextButton(
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
                   onPressed: () => context.go('/recuperar'),
-                  child: Text(
-                    l10n.loginOlvidaste,
-                    style: const TextStyle(color: LigeritoColors.textSecondary),
-                  ),
+                  child: Text(l10n.loginOlvidaste),
                 ),
-                const SizedBox(height: 8),
-                TextButton(
-                  onPressed: () => context.go('/registro'),
-                  child: RichText(
-                    text: TextSpan(
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      children: [
-                        TextSpan(
-                          text: '${l10n.loginSinCuenta.split('? ')[0]}? ',
-                        ),
-                        TextSpan(
-                          text: l10n.loginSinCuenta.split('? ').last,
-                          style: const TextStyle(
-                            color: LigeritoColors.primary,
-                            fontWeight: FontWeight.w600,
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 52,
+                child: FilledButton(
+                  onPressed: isLoading ? null : _submit,
+                  child: isLoading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
+                        )
+                      : Text(l10n.loginBoton),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${l10n.loginSinCuenta.split('? ').first}?',
+                    style: TextStyle(color: scheme.onSurfaceVariant),
+                  ),
+                  TextButton(
+                    onPressed: () => context.go('/registro'),
+                    child: Text(l10n.loginSinCuenta.split('? ').last),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

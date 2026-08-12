@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ligerito/features/pedidos/data/repositories/pedidos_repository_mock.dart';
+import 'package:ligerito/core/network/providers/dio_providers.dart';
+import 'package:ligerito/features/pedidos/data/repositories/pedidos_repository_remote.dart';
 import 'package:ligerito/features/pedidos/domain/entities/pedido.dart';
 import 'package:ligerito/features/pedidos/domain/repositories/pedidos_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -7,7 +8,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'pedidos_providers.g.dart';
 
 @Riverpod(keepAlive: true)
-PedidosRepository pedidosRepository(Ref ref) => PedidosRepositoryMock();
+PedidosRepository pedidosRepository(Ref ref) {
+  final dio = ref.watch(dioClientProvider);
+  return PedidosRepositoryRemote(dio);
+}
 
 @riverpod
 Future<List<Pedido>> misPedidos(Ref ref) {

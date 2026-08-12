@@ -6,7 +6,7 @@ part of 'pedidos_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pedidosRepositoryHash() => r'4fd179d8a3e13e30789288009ee63104ced42ac5';
+String _$pedidosRepositoryHash() => r'32d08f6c20196fcb6b4283bebbd20124dda7a5b5';
 
 /// See also [pedidosRepository].
 @ProviderFor(pedidosRepository)

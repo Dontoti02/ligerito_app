@@ -21,19 +21,19 @@ mixin _$SesionState {
   TResult when<TResult extends Object?>({
     required TResult Function() cargando,
     required TResult Function(Usuario usuario) autenticado,
-    required TResult Function() noAutenticado,
+    required TResult Function(String? error) noAutenticado,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? cargando,
     TResult? Function(Usuario usuario)? autenticado,
-    TResult? Function()? noAutenticado,
+    TResult? Function(String? error)? noAutenticado,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? cargando,
     TResult Function(Usuario usuario)? autenticado,
-    TResult Function()? noAutenticado,
+    TResult Function(String? error)? noAutenticado,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -124,7 +124,7 @@ class _$SesionCargandoImpl implements SesionCargando {
   TResult when<TResult extends Object?>({
     required TResult Function() cargando,
     required TResult Function(Usuario usuario) autenticado,
-    required TResult Function() noAutenticado,
+    required TResult Function(String? error) noAutenticado,
   }) {
     return cargando();
   }
@@ -134,7 +134,7 @@ class _$SesionCargandoImpl implements SesionCargando {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? cargando,
     TResult? Function(Usuario usuario)? autenticado,
-    TResult? Function()? noAutenticado,
+    TResult? Function(String? error)? noAutenticado,
   }) {
     return cargando?.call();
   }
@@ -144,7 +144,7 @@ class _$SesionCargandoImpl implements SesionCargando {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? cargando,
     TResult Function(Usuario usuario)? autenticado,
-    TResult Function()? noAutenticado,
+    TResult Function(String? error)? noAutenticado,
     required TResult orElse(),
   }) {
     if (cargando != null) {
@@ -279,7 +279,7 @@ class _$SesionAutenticadaImpl implements SesionAutenticada {
   TResult when<TResult extends Object?>({
     required TResult Function() cargando,
     required TResult Function(Usuario usuario) autenticado,
-    required TResult Function() noAutenticado,
+    required TResult Function(String? error) noAutenticado,
   }) {
     return autenticado(usuario);
   }
@@ -289,7 +289,7 @@ class _$SesionAutenticadaImpl implements SesionAutenticada {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? cargando,
     TResult? Function(Usuario usuario)? autenticado,
-    TResult? Function()? noAutenticado,
+    TResult? Function(String? error)? noAutenticado,
   }) {
     return autenticado?.call(usuario);
   }
@@ -299,7 +299,7 @@ class _$SesionAutenticadaImpl implements SesionAutenticada {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? cargando,
     TResult Function(Usuario usuario)? autenticado,
-    TResult Function()? noAutenticado,
+    TResult Function(String? error)? noAutenticado,
     required TResult orElse(),
   }) {
     if (autenticado != null) {
@@ -362,6 +362,8 @@ abstract class _$$SesionNoAutenticadaImplCopyWith<$Res> {
     _$SesionNoAutenticadaImpl value,
     $Res Function(_$SesionNoAutenticadaImpl) then,
   ) = __$$SesionNoAutenticadaImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String? error});
 }
 
 /// @nodoc
@@ -375,36 +377,63 @@ class __$$SesionNoAutenticadaImplCopyWithImpl<$Res>
 
   /// Create a copy of SesionState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? error = freezed}) {
+    return _then(
+      _$SesionNoAutenticadaImpl(
+        error: freezed == error
+            ? _value.error
+            : error // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
 class _$SesionNoAutenticadaImpl implements SesionNoAutenticada {
-  const _$SesionNoAutenticadaImpl();
+  const _$SesionNoAutenticadaImpl({this.error});
+
+  @override
+  final String? error;
 
   @override
   String toString() {
-    return 'SesionState.noAutenticado()';
+    return 'SesionState.noAutenticado(error: $error)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SesionNoAutenticadaImpl);
+            other is _$SesionNoAutenticadaImpl &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, error);
+
+  /// Create a copy of SesionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SesionNoAutenticadaImplCopyWith<_$SesionNoAutenticadaImpl> get copyWith =>
+      __$$SesionNoAutenticadaImplCopyWithImpl<_$SesionNoAutenticadaImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() cargando,
     required TResult Function(Usuario usuario) autenticado,
-    required TResult Function() noAutenticado,
+    required TResult Function(String? error) noAutenticado,
   }) {
-    return noAutenticado();
+    return noAutenticado(error);
   }
 
   @override
@@ -412,9 +441,9 @@ class _$SesionNoAutenticadaImpl implements SesionNoAutenticada {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? cargando,
     TResult? Function(Usuario usuario)? autenticado,
-    TResult? Function()? noAutenticado,
+    TResult? Function(String? error)? noAutenticado,
   }) {
-    return noAutenticado?.call();
+    return noAutenticado?.call(error);
   }
 
   @override
@@ -422,11 +451,11 @@ class _$SesionNoAutenticadaImpl implements SesionNoAutenticada {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? cargando,
     TResult Function(Usuario usuario)? autenticado,
-    TResult Function()? noAutenticado,
+    TResult Function(String? error)? noAutenticado,
     required TResult orElse(),
   }) {
     if (noAutenticado != null) {
-      return noAutenticado();
+      return noAutenticado(error);
     }
     return orElse();
   }
@@ -467,5 +496,14 @@ class _$SesionNoAutenticadaImpl implements SesionNoAutenticada {
 }
 
 abstract class SesionNoAutenticada implements SesionState {
-  const factory SesionNoAutenticada() = _$SesionNoAutenticadaImpl;
+  const factory SesionNoAutenticada({final String? error}) =
+      _$SesionNoAutenticadaImpl;
+
+  String? get error;
+
+  /// Create a copy of SesionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SesionNoAutenticadaImplCopyWith<_$SesionNoAutenticadaImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

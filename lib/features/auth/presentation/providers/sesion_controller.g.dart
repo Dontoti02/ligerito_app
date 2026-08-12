@@ -6,7 +6,24 @@ part of 'sesion_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sesionControllerHash() => r'70091fc88dea1b7c98ad6e55998637c2412d1ce2';
+String _$authRepositoryHash() => r'27d8d5c44ce8b0ce8f6824392cff06b2173d7ab4';
+
+/// See also [authRepository].
+@ProviderFor(authRepository)
+final authRepositoryProvider = Provider<AuthRepository>.internal(
+  authRepository,
+  name: r'authRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$authRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AuthRepositoryRef = ProviderRef<AuthRepository>;
+String _$sesionControllerHash() => r'935278a86c0d8454a494aa66ee537b7eb2775952';
 
 /// See also [SesionController].
 @ProviderFor(SesionController)

@@ -4,17 +4,21 @@ class ApiEndpoints {
 
   static const baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://api.ligerito.pe',
+    defaultValue: 'http://192.168.56.1:8000',
   );
 
-  static const login = '/auth/login';
-  static const register = '/auth/register';
-  static const refresh = '/auth/refresh';
-  static const negocios = '/negocios';
-  static String negocioDetalle(String id) => '/negocios/$id';
-  static const pedidos = '/pedidos';
-  static String pedidoDetalle(String id) => '/pedidos/$id';
-  static String pedidoEstado(String id) => '/pedidos/$id/estado';
-  static const pedidosEntrantes = '/negocio/pedidos-entrantes';
-  static const productos = '/negocio/productos';
+  static const login = '/api/auth/login';
+  static const register = '/api/auth/register';
+  static const refresh = '/api/auth/refresh';
+  static const logout = '/api/auth/logout';
+  static const negocios = '/api/negocios';
+  static String negocioDetalle(String id) => '/api/negocios/$id';
+  static String productosNegocio(String negocioId) => '/api/negocios/$negocioId/productos';
+  static const direcciones = '/api/direcciones';
+  static String direccionDetalle(String id) => '/api/direcciones/$id';
+  static const pedidos = '/api/pedidos';
+  static String pedidoDetalle(String id) => '/api/pedidos/$id';
+  static String pedidoEstado(String id) => '/api/negocio/pedidos/$id/estado';
+  static const pedidosEntrantes = '/api/negocio/pedidos-entrantes';
+  static const productos = '/api/negocio/productos';
 }

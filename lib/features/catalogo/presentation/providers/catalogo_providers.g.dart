@@ -7,7 +7,7 @@ part of 'catalogo_providers.dart';
 // **************************************************************************
 
 String _$catalogoRepositoryHash() =>
-    r'233095d5ba701fe49589e088c98c2d5020e6fb06';
+    r'ba6dd8c650fde96bcbeafe314c6b7d176f0375b3';
 
 /// See also [catalogoRepository].
 @ProviderFor(catalogoRepository)

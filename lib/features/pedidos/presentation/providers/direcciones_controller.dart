@@ -1,6 +1,9 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ligerito/features/pedidos/data/repositories/direcciones_repository_mock.dart';
+import 'package:ligerito/core/network/providers/dio_providers.dart';
+import 'package:ligerito/features/pedidos/data/repositories/direcciones_repository_remote.dart';
 import 'package:ligerito/features/pedidos/domain/entities/direccion.dart';
+import 'package:ligerito/features/pedidos/domain/repositories/direcciones_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'direcciones_controller.freezed.dart';
@@ -14,32 +17,54 @@ sealed class DireccionesState with _$DireccionesState {
 }
 
 @Riverpod(keepAlive: true)
+DireccionesRepository direccionesRepository(Ref ref) {
+  final dio = ref.watch(dioClientProvider);
+  return DireccionesRepositoryRemote(dio);
+}
+
+@Riverpod(keepAlive: true)
 class DireccionesController extends _$DireccionesController {
   @override
   Future<DireccionesState> build() async {
-    final repo = DireccionesRepositoryMock();
-    final direcciones = await repo.getDirecciones();
-    return DireccionesState.loaded(direcciones);
+    final repo = ref.watch(direccionesRepositoryProvider);
+    try {
+      final direcciones = await repo.getDirecciones();
+      return DireccionesState.loaded(direcciones);
+    } catch (e) {
+      return DireccionesState.error('Error al cargar direcciones');
+    }
   }
 
   Future<void> crear(Direccion direccion) async {
-    state = const AsyncData(DireccionesState.cargando());
-    final repo = DireccionesRepositoryMock();
-    await repo.crear(direccion);
-    state = AsyncData(DireccionesState.loaded(await repo.getDirecciones()));
+    try {
+      final repo = ref.read(direccionesRepositoryProvider);
+      await repo.crear(direccion);
+      final direcciones = await repo.getDirecciones();
+      state = AsyncData(DireccionesState.loaded(direcciones));
+    } catch (e) {
+      state = AsyncData(DireccionesState.error('Error al crear dirección'));
+    }
   }
 
   Future<void> actualizar(Direccion direccion) async {
-    state = const AsyncData(DireccionesState.cargando());
-    final repo = DireccionesRepositoryMock();
-    await repo.actualizar(direccion);
-    state = AsyncData(DireccionesState.loaded(await repo.getDirecciones()));
+    try {
+      final repo = ref.read(direccionesRepositoryProvider);
+      await repo.actualizar(direccion);
+      final direcciones = await repo.getDirecciones();
+      state = AsyncData(DireccionesState.loaded(direcciones));
+    } catch (e) {
+      state = AsyncData(DireccionesState.error('Error al actualizar dirección'));
+    }
   }
 
   Future<void> eliminar(String id) async {
-    state = const AsyncData(DireccionesState.cargando());
-    final repo = DireccionesRepositoryMock();
-    await repo.eliminar(id);
-    state = AsyncData(DireccionesState.loaded(await repo.getDirecciones()));
+    try {
+      final repo = ref.read(direccionesRepositoryProvider);
+      await repo.eliminar(id);
+      final direcciones = await repo.getDirecciones();
+      state = AsyncData(DireccionesState.loaded(direcciones));
+    } catch (e) {
+      state = AsyncData(DireccionesState.error('Error al eliminar dirección'));
+    }
   }
 }

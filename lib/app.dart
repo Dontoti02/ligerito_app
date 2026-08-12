@@ -13,6 +13,7 @@ class LigeritoApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     return MaterialApp.router(
       title: 'Ligerito',
+      debugShowCheckedModeBanner: false,
       theme: LigeritoTheme.light,
       routerConfig: router,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

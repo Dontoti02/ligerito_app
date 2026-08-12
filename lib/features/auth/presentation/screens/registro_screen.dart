@@ -51,6 +51,13 @@ class _RegistroScreenState extends ConsumerState<RegistroScreen> {
         ),
       );
       context.go('/login');
+    } else if (sesion is SesionNoAutenticada && sesion.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(sesion.error!),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 

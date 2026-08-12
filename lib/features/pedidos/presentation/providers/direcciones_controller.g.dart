@@ -6,8 +6,26 @@ part of 'direcciones_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$direccionesRepositoryHash() =>
+    r'b211850d09201a20dc23e995b09052d8a8410b8f';
+
+/// See also [direccionesRepository].
+@ProviderFor(direccionesRepository)
+final direccionesRepositoryProvider = Provider<DireccionesRepository>.internal(
+  direccionesRepository,
+  name: r'direccionesRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$direccionesRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef DireccionesRepositoryRef = ProviderRef<DireccionesRepository>;
 String _$direccionesControllerHash() =>
-    r'0f707af662d3e6d73c56fcd87a50e7492832dfb7';
+    r'd47f7426bdb7dd15b1c455447b60581e13ba3936';
 
 /// See also [DireccionesController].
 @ProviderFor(DireccionesController)
