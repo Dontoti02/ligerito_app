@@ -67,17 +67,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             children: [
               const SizedBox(height: 24),
-              Container(
-                height: 160,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: scheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Icon(
-                  Icons.lock_person_rounded,
-                  size: 72,
-                  color: scheme.onPrimaryContainer,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.asset(
+                  'assets/logo.png',
+                  key: const ValueKey<String>('login-logo'),
+                  width: double.infinity,
+                  height: 160,
+                  fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(height: 28),
