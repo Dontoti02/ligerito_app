@@ -32,7 +32,10 @@ void main() {
   testWidgets('muestra la nueva composición visual del login', (tester) async {
     await _pumpLogin(tester);
 
-    expect(find.byIcon(Icons.lock_person_rounded), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey<String>('login-logo')),
+      findsOneWidget,
+    );
     expect(find.byIcon(Icons.phone_outlined), findsOneWidget);
     expect(find.byIcon(Icons.lock_outline), findsOneWidget);
     expect(find.text('¡Qué bueno verte!'), findsOneWidget);
