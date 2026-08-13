@@ -1,12 +1,10 @@
+// lib/features/auth/presentation/screens/registro_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ligerito/core/constants/ligerito_colors.dart';
 import 'package:ligerito/core/utils/validators.dart';
-import 'package:ligerito/core/widgets/ligerito_button.dart';
-import 'package:ligerito/core/widgets/ligerito_text_field.dart';
 import 'package:ligerito/features/auth/presentation/providers/sesion_controller.dart';
-import 'package:ligerito/features/auth/presentation/widgets/auth_header.dart';
 import 'package:ligerito/l10n/app_localizations.dart';
 
 class RegistroScreen extends ConsumerStatefulWidget {
@@ -66,6 +64,8 @@ class _RegistroScreenState extends ConsumerState<RegistroScreen> {
     final l10n = AppLocalizations.of(context)!;
     final sesion = ref.watch(sesionControllerProvider);
     final isLoading = sesion.valueOrNull is SesionCargando;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -75,82 +75,128 @@ class _RegistroScreenState extends ConsumerState<RegistroScreen> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                AuthHeader(
-                  title: l10n.registroTitulo,
-                  subtitle: l10n.tagline,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            children: [
+              const SizedBox(height: 24),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.asset(
+                  'assets/logo.png',
+                  width: double.infinity,
+                  height: 160,
+                  fit: BoxFit.cover,
                 ),
-                LigeritoTextField(
-                  label: l10n.registroNombre,
-                  controller: _nombreCtrl,
-                  validator: LigeritoValidators.nombreObligatorio,
+              ),
+              const SizedBox(height: 28),
+              Text(
+                l10n.registroTitulo,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 16),
-                LigeritoTextField(
-                  label: l10n.loginTelefono,
-                  hint: '999123456',
-                  controller: _telefonoCtrl,
-                  validator: LigeritoValidators.telefono,
-                  keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                l10n.tagline,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: scheme.onSurfaceVariant,
                 ),
-                const SizedBox(height: 16),
-                LigeritoTextField(
-                  label: l10n.registroEmail,
-                  controller: _emailCtrl,
-                  keyboardType: TextInputType.emailAddress,
+              ),
+              const SizedBox(height: 24),
+              TextFormField(
+                controller: _nombreCtrl,
+                validator: LigeritoValidators.nombreObligatorio,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  labelText: l10n.registroNombre,
+                  prefixIcon: const Icon(Icons.person_outline),
+                  border: const OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16),
-                LigeritoTextField(
-                  label: l10n.loginPassword,
-                  controller: _passwordCtrl,
-                  validator: LigeritoValidators.password,
-                  obscureText: _obscurePassword,
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _telefonoCtrl,
+                validator: LigeritoValidators.telefono,
+                keyboardType: TextInputType.phone,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  labelText: l10n.loginTelefono,
+                  prefixIcon: const Icon(Icons.phone_outlined),
+                  border: const OutlineInputBorder(),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _emailCtrl,
+                keyboardType: TextInputType.emailAddress,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  labelText: l10n.registroEmail,
+                  prefixIcon: const Icon(Icons.email_outlined),
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _passwordCtrl,
+                validator: LigeritoValidators.password,
+                obscureText: _obscurePassword,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                decoration: InputDecoration(
+                  labelText: l10n.loginPassword,
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: LigeritoColors.textSecondary,
                     ),
-                    onPressed: () =>
-                        setState(() => _obscurePassword = !_obscurePassword),
+                    onPressed: () => setState(
+                      () => _obscurePassword = !_obscurePassword,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8),
-                LigeritoButton(
-                  label: l10n.registroBoton,
-                  onPressed: _submit,
-                  loading: isLoading,
-                ),
-                const SizedBox(height: 24),
-                TextButton(
-                  onPressed: () => context.go('/login'),
-                  child: RichText(
-                    text: TextSpan(
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      children: [
-                        const TextSpan(text: '¿Ya tienes cuenta? '),
-                        TextSpan(
-                          text: 'Inicia sesión',
-                          style: const TextStyle(
-                            color: LigeritoColors.primary,
-                            fontWeight: FontWeight.w600,
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 52,
+                child: FilledButton(
+                  onPressed: isLoading ? null : _submit,
+                  child: isLoading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
                           ),
+                        )
+                      : Text(l10n.registroBoton),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => context.go('/login'),
+                child: RichText(
+                  text: TextSpan(
+                    style: theme.textTheme.bodyMedium,
+                    children: [
+                      const TextSpan(text: '¿Ya tienes cuenta? '),
+                      TextSpan(
+                        text: 'Inicia sesión',
+                        style: TextStyle(
+                          color: scheme.primary,
+                          fontWeight: FontWeight.w600,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
